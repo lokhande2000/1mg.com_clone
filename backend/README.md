@@ -1,0 +1,23 @@
+#categories of products
+
+ - Vitamins & Nutrition
+ - Body & Skin Care
+ - Gel & Spray
+ - Face Scrub
+ - Makeup Remover & Wipes
+ - Wipes
+ - Face Serum & Oil
+ - Trending now
+ - Skin Care
+ - Supports & Braces
+ - Vitamins & Nutrition
+ - Featured
+ - Healthcare Devices
+ - Homeopathy
+ - Hair Care
+ - Weight Management
+ - Oral Care
+ - Pain Relief
+ - Cough, Cold & Fever
+ - Vata Balancing
+ - Nasal Drops & Sprays
