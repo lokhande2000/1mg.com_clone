@@ -2,15 +2,15 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
-import connection from "./config/db.js"
+import connection from "./config/db.js";
 import productRoute from "./routes/product.route.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// middleware 
+// middleware
 app.use(express.json());
-app.use("/products", productRoute)
+app.use("/products", productRoute);
 
 app.get("/", (req, res) => {
   try {
@@ -20,12 +20,11 @@ app.get("/", (req, res) => {
   }
 });
 
-
 app.listen(port, async (req, res) => {
-    try {
-        await connection();
-        console.log(`server listening on ${port}`)
-    } catch (error) {
-        console.log("server not started", error.message)
-    }
-})
+  try {
+    await connection();
+    console.log(`server listening on ${port}`);
+  } catch (error) {
+    console.log("server not started", error.message);
+  }
+});

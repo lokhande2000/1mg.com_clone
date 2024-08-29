@@ -1,4 +1,4 @@
-#categories of products
+# categories of products
 
  - Vitamins & Nutrition
  - Body & Skin Care
