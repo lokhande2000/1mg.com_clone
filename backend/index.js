@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import connection from "./config/db.js";
@@ -9,6 +10,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // middleware
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/products", productRoute);
 
