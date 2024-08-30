@@ -21,6 +21,26 @@ productRoute.get("/allProducts", async (req, res) => {
   }
 });
 
+// get Single Product 
+productRoute.post("/singleProduct/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    // console.log(id);
+
+    // Find the product by ID
+    const productData = await Product.findById(id);
+
+    if (!productData) {
+      return res.status(404).send("Product ID not found in the database. Please provide the correct ID.");
+    }
+
+    res.status(200).send(productData);
+  } catch (error) {
+    res.status(500).send({ message: "An error occurred while retrieving the product. Please try again later." });
+  }
+});
+
+
 // Add a new product
 productRoute.post("/product", async (req, res) => {
   try {
