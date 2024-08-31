@@ -1,1 +1,1 @@
-# 1mg.com_clone
+# 1mg.com
