@@ -36,27 +36,27 @@ the home, product, and cart page.
     
 ## Project Screenshots
 
-#Home Page
+## Home Page
 
 ![App Screenshot](./frontend/src/components/config/banner/home.png)
 
-#Register Page
+## Register Page
 
 ![App Screenshot](./frontend/src/components/config/banner/registration.png)
 
-#Login Page
+## Login Page
 
 ![App Screenshot](./frontend/src/components/config/banner/login.png)
 
-#Product Page
+## Product Page
 
 ![App Screenshot](./frontend/src/components/config/banner/body.png)
 
-#Single Product Page
+## Single Product Page
 
 ![App Screenshot](./frontend/src/components/config/banner/singleProductPage.png)
 
-#Cart Page
+## Cart Page
 
 ![App Screenshot](./frontend/src/components/config/banner/addToCartPage1.png)
 
