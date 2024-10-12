@@ -75,6 +75,7 @@ const ProductCardCarousel = ({ data, title }) => {
   const handleClick = (name,id)=>{
       // console.log(id)
       navigate(`/singleproduct/${name}/${id}`)
+      window.scrollTo(0, 0); 
   }
 
   return (

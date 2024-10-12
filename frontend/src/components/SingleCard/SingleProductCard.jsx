@@ -12,6 +12,7 @@ import {
   Select,
   SimpleGrid,
   Text,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -67,14 +68,15 @@ const SingleProductCard = () => {
     mrp: 0,
     itemcount: 1,
     url: "",
-    discount: 5
+    discount: 5,
   });
+  const toast = useToast();
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let cartState = useSelector((state) => state.cart);
 
-  console.log(data);
+  // console.log(data);
   const getSingleProduct = async (id) => {
     try {
       const res = await axios.post(`${url}/products/singleProduct/${id}`);
@@ -94,6 +96,17 @@ const SingleProductCard = () => {
       url: data.url[0],
       discount: data?.comboOffers[0]?.discount || 5,
     }));
+
+    toast({
+      title: "Item added Successfully.",
+      status: "success",
+      position: "top",
+      duration: 1000,
+      isClosable: true,
+    });
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
   };
 
   useEffect(() => {

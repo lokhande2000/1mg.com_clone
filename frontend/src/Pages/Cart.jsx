@@ -10,23 +10,73 @@ import {
   Flex,
   Button,
   Checkbox,
-  Alert,
-  AlertIcon,
+  useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import MyComponent from '../components/Buttons/MyComponent';
-// import { Link } from "react-router-dom";
+import MyComponent from "../components/Buttons/MyComponent";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   let cartState = useSelector((state) => state.cart);
 
   const [cartItem, setCartItem] = useState([]);
-  const [count, setCount] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [totalItemsPrice, setTotalItemsPrice] = useState(0);
+  const [totalDiscount, setTotalDiscount] = useState(0);
+  const navigate = useNavigate();
+  const toast = useToast();
+  const dispatch = useDispatch();
 
+  const handleDeleteItem = (id) => {
+    let updateArray = cartItem.filter((item) => item.id !== id);
+    setCartItem(updateArray);
+  };
+
+  const handleAddProductIncriment = (id) => {
+    const product = cartItem.map((item) =>
+      item.id == id ? { ...item, itemcount: item.itemcount + 1 } : item
+    );
+    setCartItem(product);
+  };
+
+  const handleAddProductDecriment = (id) => {
+    const product = cartItem.map((item) =>
+      item.id == id ? { ...item, itemcount: item.itemcount - 1 } : item
+    );
+    setCartItem(product);
+  };
+
+  const handleProcedToPayment = () => {
+    dispatch({ type: "EMPTY_CART" });
+    setCartItem([]);
+    toast({
+      title: "Order Successful",
+      status: "success",
+      position: "top",
+      duration: 9000,
+      isClosable: true,
+    });
+    setTimeout(() => navigate("/"), 1000);
+  };
+
+  useMemo(() => {
+    let totalpriceOfAllItem = cartItem.reduce(
+      (acc, item) => acc + item.mrp * item.itemcount,
+      0
+    );
+    let totalprice = cartItem.reduce(
+      (acc, item) => acc + item.price * item.itemcount,
+      0
+    );
+
+    setTotalItemsPrice(totalpriceOfAllItem);
+    setTotalDiscount(totalpriceOfAllItem - totalprice);
+    setTotal(totalprice + 4);
+  }, [cartItem]);
 
   useEffect(() => {
     setCartItem(cartState);
@@ -34,15 +84,19 @@ const Cart = () => {
 
   return (
     <Grid
-      w="85%"
+      w={{ base: "95%", md: "90%", lg: "85%" }}
       m="auto"
       minH="80vh"
-      templateColumns="2fr 1fr"
+      templateColumns={{ base: "1fr", lg: "2fr 1fr" }}
       gap={1}
       pt={10}
     >
       {/* ========================= */}
-      <VStack alignItems="flex-start" spacing={10} borderRight="1px solid #222">
+      <VStack
+        alignItems="flex-start"
+        spacing={10}
+        borderRight={{ base: "none", lg: "1px solid #222" }}
+      >
         <VStack alignItems="flex-start">
           <Heading as="h2" size="md">
             {cartItem.length} items added
@@ -53,17 +107,23 @@ const Cart = () => {
         <VStack>
           {cartItem &&
             cartItem?.map((ele) => (
-              <Grid w="full" key={ele.id} templateColumns="1fr 4fr 2fr" gap={2}>
+              <Grid
+                w="full"
+                key={ele.id}
+                templateColumns={{ base: "1fr", md: "1fr 4fr 2fr" }}
+                gap={2}
+              >
                 <HStack
                   overflow="hidden"
                   h="100%"
                   w="100%"
                   justifyContent="center"
+                  alignItems="center"
                 >
                   <Image
-                    h="65px"
-                    objectFit="contain"
+                    h={{ base: "40px", md: "50px" }}
                     w="100%"
+                    objectFit="contain"
                     src={ele?.url}
                     alt="product img"
                   />
@@ -73,26 +133,45 @@ const Cart = () => {
                   <Heading as="h2" size="md">
                     {ele?.name}
                   </Heading>
-                  <Link>remove</Link>
+                  <Link onClick={() => handleDeleteItem(ele.id)}>remove</Link>
                 </VStack>
 
                 <VStack alignItems="flex-start">
                   <HStack>
-                    <Text>₹{ele?.price}</Text>
-                    <Text textDecoration="line-through">₹{ele?.mrp}</Text>
+                    <Text>₹{ele?.price * ele.itemcount}</Text>
+                    <Text textDecoration="line-through">
+                      ₹{ele?.mrp * ele.itemcount}
+                    </Text>
                     <Text color="green">{ele?.discount}% off</Text>
                   </HStack>
 
                   <HStack
                     border="1px solid #ff6f61"
-                    w="50%"
+                    w={{ base: "70%", md: "50%" }}
                     rounded="md"
                     p={2}
                     justifyContent="space-between"
                   >
-                    <RiDeleteBin6Line color="#ff6f61" />
+                    {ele.itemcount > 1 ? (
+                      <MinusIcon
+                        onClick={() => handleAddProductDecriment(ele.id)}
+                        cursor="pointer"
+                        color="#ff6f61"
+                      />
+                    ) : (
+                      <RiDeleteBin6Line
+                        cursor="pointer"
+                        color="#ff6f61"
+                        onClick={() => handleDeleteItem(ele.id)}
+                      />
+                    )}
+
                     <Text>{ele?.itemcount}</Text>
-                    <AddIcon color="#ff6f61" />
+                    <AddIcon
+                      cursor="pointer"
+                      color="#ff6f61"
+                      onClick={() => handleAddProductIncriment(ele.id)}
+                    />
                   </HStack>
                 </VStack>
               </Grid>
@@ -101,7 +180,7 @@ const Cart = () => {
       </VStack>
 
       {/* ===================== */}
-      <VStack alignItems="flex-start" p={6}>
+      <VStack alignItems="flex-start" p={6} spacing={4}>
         <VStack
           w="full"
           alignItems="flex-start"
@@ -109,7 +188,7 @@ const Cart = () => {
           pb={5}
         >
           <Image
-            w="80px"
+            w={{ base: "60px", md: "80px" }}
             src="https://onemg.gumlet.io/image/upload/v1625657833/ekjkxafxcqqg0oinr3fu.png"
             alt="logo"
           />
@@ -117,13 +196,13 @@ const Cart = () => {
             You can save extra ₹124 on this order
           </Heading>
           <Text color="#8a2422">Become a careplan member</Text>
-          <Flex fontSize="sm" gap={2}>
+          <Flex fontSize="sm" gap={2} flexWrap="wrap">
             <Text>3 months membership for only</Text>
             <Text fontWeight={500}>₹165</Text>
             <Text textDecoration="line-through">₹549</Text>
             <Text color="green">70% off</Text>
           </Flex>
-          <Flex gap={2} w="full">
+          <Flex gap={2} w="full" flexDirection={{ base: "column", md: "row" }}>
             <Button
               bg="inherit"
               color="#E86558"
@@ -202,12 +281,9 @@ const Cart = () => {
           py={3}
         >
           <Heading size="md">Bill summary</Heading>
-          <HStack
-            w="full"
-            justifyContent="space-between"
-          >
+          <HStack w="full" justifyContent="space-between">
             <Text fontSize="sm">Item total (MRP)</Text>
-            <Text fontSize="sm">₹3799</Text>
+            <Text fontSize="sm">₹{totalItemsPrice}</Text>
           </HStack>
 
           <HStack w="full" justifyContent="space-between">
@@ -217,7 +293,7 @@ const Cart = () => {
 
           <HStack color="#208376" w="full" justifyContent="space-between">
             <Text fontSize="sm">Total discount</Text>
-            <Text fontSize="sm">-₹1550</Text>
+            <Text fontSize="sm">-₹{totalDiscount}</Text>
           </HStack>
 
           <HStack
@@ -233,11 +309,19 @@ const Cart = () => {
 
           <HStack fontWeight="bold" w="full" justifyContent="space-between">
             <Text fontSize="lg">To be paid</Text>
-            <Text fontSize="lg">₹2253</Text>
+            <Text fontSize="lg">₹{total}</Text>
           </HStack>
         </VStack>
 
-        <Button  w='full' bg="#E86558" _hover={{bg:"#e86458ca"}} color='#fff'>Continue</Button>
+        <Button
+          w="full"
+          bg="#E86558"
+          _hover={{ bg: "#e86458ca" }}
+          color="#fff"
+          onClick={handleProcedToPayment}
+        >
+          Continue
+        </Button>
         {/* <MyComponent/> */}
       </VStack>
     </Grid>

@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import "./App.css";
 import Navbar from "./components/Header/Navabar";
 import AllRoutes from "./Routes/AllRoutes";
-import "./App.css";
 import Footer from "./components/Footer/Footer";
 import InformationSection from "./components/Footer/InformationSection";
 import { useSelector } from "react-redux";
+import { VStack } from "@chakra-ui/react";
 
 function App() {
-  let cartState = useSelector((state) => state.cart);
-  console.log(cartState);
+  // let cartState = useSelector((state) => state.cart);
+  // console.log(cartState);
 
   return (
     <>
       <Navbar />
       <AllRoutes />
-      <InformationSection/>
-      <Footer/>
+      <VStack>
+        <InformationSection />
+        <Footer />
+      </VStack>
     </>
   );
 }

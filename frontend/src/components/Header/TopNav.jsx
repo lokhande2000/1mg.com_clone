@@ -230,7 +230,7 @@ const TopNav = () => {
               src="https://onemg.gumlet.io/cart-icon-rebrand_vp4k0f.svg"
               alt="cart"
             />
-            <Text mb={4} bg="red" fontSize="10px" p="5px" rounded="100%">
+            <Text mb={4} bg="#FF6F61" fontWeight={800} fontSize="10px" p="5px" rounded="md">
               {cartState.length}
             </Text>
           </HStack>
