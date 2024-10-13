@@ -75,8 +75,7 @@ const SingleProductCard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let cartState = useSelector((state) => state.cart);
-
-  // console.log(data);
+  
   const getSingleProduct = async (id) => {
     try {
       const res = await axios.post(`${url}/products/singleProduct/${id}`);

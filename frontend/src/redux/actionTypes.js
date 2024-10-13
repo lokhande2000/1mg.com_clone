@@ -1,4 +1,5 @@
 const actions = {
+    ADD_PRODUCT : "ADD_PRODUCT",
     SET_THEME: "SET_THEME",
     ADD_TO_CART: "ADD_TO_CART",
     EMPTY_CART: "EMPTY_CART",

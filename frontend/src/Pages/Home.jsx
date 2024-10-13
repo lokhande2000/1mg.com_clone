@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import actionType from "../redux/actionTypes.js";
 const url = import.meta.env.VITE_SERVER_URL;
 import axios from "axios";
 import HomeCarousel from "../components/Carousels/HomeCarousel";
@@ -15,15 +16,18 @@ import {
 } from "../components/config/productsArray";
 import Health_checkups from "../components/Carousels/Health_checkups";
 import SectionHeading from "../components/Heading/SectionHeading";
+import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
   const [data, setData] = useState([]);
+  let dispatch = useDispatch();
+  let productredux = useSelector((state) => state.product);
 
-  // console.log(data)
   async function getData() {
     try {
       let result = await axios.get(`${url}/products/allProducts`);
       setData(result?.data); // Log the response data, not the whole result
+      dispatch({ type: actionType.ADD_PRODUCT, payload: result?.data });
     } catch (error) {
       console.error("Failed to fetch data:", error.message); // More descriptive error message
     }
@@ -32,6 +36,7 @@ const Home = () => {
   useEffect(() => {
     getData();
   }, []);
+
   return (
     <Stack w="full" mb={10}>
       <HStack spacing={0} flexDirection={{ base: "column", lg: "row" }}>

@@ -1,10 +1,15 @@
 import { Button, Flex, HStack, Input, Text } from "@chakra-ui/react";
 import { FaLocationCrosshairs, FaLocationDot } from "react-icons/fa6";
 import { IoSearchSharp } from "react-icons/io5";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const MiddleNav = () => {
   const [location, setLocation] = useState("Pune");
+  const [searchTitle, setSearchTitle] = useState("");
+
+  useEffect(()=>{
+      
+  },[])
 
   return (
     <>
@@ -21,14 +26,20 @@ const MiddleNav = () => {
             <input
               type="text"
               value={location}
-              style={{ outline: "none", backgroundColor: "#F1F4F6", fontWeight:'bold' }}
+              style={{
+                outline: "none",
+                backgroundColor: "#F1F4F6",
+                fontWeight: "bold",
+              }}
               onChange={(e) => setLocation(e.target.value)}
             />
             <FaLocationCrosshairs />
           </Flex>
           <Flex bg="#F1F4F6" alignItems="center" px={3} py={1} gap={2}>
             <input
-              type="text"
+              value={searchTitle}
+              onChange={(e) => setSearchTitle(e.target.value)}
+              type="search"
               placeholder="Search for Medicines and Health Products"
               style={{
                 outline: "none",
@@ -40,9 +51,11 @@ const MiddleNav = () => {
           </Flex>
         </HStack>
 
-        <Flex gap={3} alignItems='center'>
+        <Flex gap={3} alignItems="center">
           <Text>QUICK BUY! Get 15% off on medicines*</Text>
-          <Button bg="#FF6F61" color="#fff">Ouick order</Button>
+          <Button bg="#FF6F61" color="#fff">
+            Ouick order
+          </Button>
         </Flex>
       </HStack>
     </>
