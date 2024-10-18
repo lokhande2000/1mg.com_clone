@@ -58,9 +58,9 @@ the home, product, and cart page.
 
 ## Cart Page
 
-![App Screenshot](./frontend/src/components/config/images/addToCartPage1.png)
 
-![App Screenshot](./frontend/src/components/config/images/addToCartPage.png)
+
+![App Screenshot](./frontend/src/components/config/images/addtocard.png)
 
 ## Footer
 
