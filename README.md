@@ -38,32 +38,32 @@ the home, product, and cart page.
 
 ## Home Page
 
-![App Screenshot](./frontend/src/components/config/banner/home.png)
+![App Screenshot](./frontend/src/components/config/images/1mghomepage.png)
 
 ## Register Page
 
-![App Screenshot](./frontend/src/components/config/banner/registration.png)
+![App Screenshot](./frontend/src/components/config/images/register.png)
 
 ## Login Page
 
-![App Screenshot](./frontend/src/components/config/banner/login.png)
+![App Screenshot](./frontend/src/components/config/images/login.png)
 
 ## Product Page
 
-![App Screenshot](./frontend/src/components/config/banner/body.png)
+![App Screenshot](./frontend/src/components/config/images/body.png)
 
 ## Single Product Page
 
-![App Screenshot](./frontend/src/components/config/banner/singleProductPage.png)
+![App Screenshot](./frontend/src/components/config/images/singleProductPage.png)
 
 ## Cart Page
 
-![App Screenshot](./frontend/src/components/config/banner/addToCartPage1.png)
+![App Screenshot](./frontend/src/components/config/images/addToCartPage1.png)
 
-![App Screenshot](./frontend/src/components/config/banner/addToCartPage.png)
+![App Screenshot](./frontend/src/components/config/images/addToCartPage.png)
 
 ## Footer
 
-![App Screenshot](./frontend/src/components/config/banner/footer1.png)
+![App Screenshot](./frontend/src/components/config/images/footerone.png)
 
-![App Screenshot](./frontend/src/components/config/banner/footer.png)
+![App Screenshot](./frontend/src/components/config/images/footertwo.png)
