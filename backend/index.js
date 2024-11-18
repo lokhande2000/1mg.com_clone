@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import connection from "./config/db.js";
 import productRoute from "./routes/product.route.js";
+import checkoutRoute from "./routes/checkout.route.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ const port = process.env.PORT || 3000;
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use("/products", productRoute);
+app.use("/api", checkoutRoute);
 
 app.get("/", (req, res) => {
   try {
