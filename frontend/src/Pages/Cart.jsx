@@ -45,7 +45,7 @@ const Cart = () => {
       "Content-Type": "application/json"
     }
     try {
-      const response = await fetch(backendUrl+"api/create-checkout-session", {
+      const response = await fetch(backendUrl, {
         method: "POST",
         headers: headers,
         body: JSON.stringify(body),
