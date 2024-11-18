@@ -1,3 +1,4 @@
+import {loadStripe} from '@stripe/stripe-js';
 import {
   Box,
   Grid,
@@ -19,6 +20,7 @@ import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import MyComponent from "../components/Buttons/MyComponent";
 import { useNavigate } from "react-router-dom";
+const backendUrl = import.meta.env.VITE_BACKEND_URL
 
 const Cart = () => {
   let cartState = useSelector((state) => state.cart);
@@ -30,6 +32,33 @@ const Cart = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const dispatch = useDispatch();
+
+  // console.log(cartItem)
+  // payment integration 
+  const makePayment = async ()=>{
+    const stripe = await loadStripe("pk_test_51QLFZXGBljheT0YqF01CjYXBQwGaTSyKwkEmS6chOPeNNsz6rbz6qpc8lqBg7UIOjAQxiT6su6XwhgjuTJfeRPwa00TsMAeTp0")
+
+    const body = {
+      products: cartItem
+    }
+    const headers = {
+      "Content-Type": "application/json"
+    }
+    try {
+      const response = await fetch(backendUrl+"api/create-checkout-session", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) throw new Error("Failed to create session");
+      const session = await response.json();
+      const result = await stripe.redirectToCheckout({ sessionId: session.id });
+      if (result.error) console.error(result.error.message);
+    } catch (error) {
+      console.error("Payment failed:", error);
+    }
+    
+  }
 
   const handleDeleteItem = (id) => {
     let updateArray = cartItem.filter((item) => item.id !== id);
@@ -50,17 +79,30 @@ const Cart = () => {
     setCartItem(product);
   };
 
-  const handleProcedToPayment = () => {
-    dispatch({ type: "EMPTY_CART" });
-    setCartItem([]);
-    toast({
-      title: "Order Successful",
-      status: "success",
-      position: "top",
-      duration: 9000,
-      isClosable: true,
-    });
-    setTimeout(() => navigate("/"), 1000);
+  const handleProcedToPayment = async () => {
+    try {
+      await makePayment(); // Wait for makePayment to complete
+      dispatch({ type: "EMPTY_CART" });
+      setCartItem([]);
+      toast({
+        title: "Order Successful",
+        status: "success",
+        position: "top",
+        duration: 9000,
+        isClosable: true,
+      });
+      setTimeout(() => navigate("/"), 1000);
+    } catch (error) {
+      console.error("Payment failed:", error);
+      toast({
+        title: "Payment Failed",
+        description: "Please try again.",
+        status: "error",
+        position: "top",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   useMemo(() => {
